@@ -18,6 +18,8 @@ alert('@ViewBag.Message');
     </script>
 
 }
+@if (Session["Role"].ToString() == "User                                    ")
+{
 <div class="row justify-content-md-center">
     <div class="col-md-12">
         <div class="card">
@@ -26,15 +28,17 @@ alert('@ViewBag.Message');
             </div>
             <div class="card-body">
                 <p>
-                    <h3>Zasady wypożyczeń: <br>
-                    -nie można wypożyć dwóch egzemplarzy tej samej książki na raz<br>
-                    -maksymalnie 5 wypożyczeń
+                    <h3>
+                        Zasady wypożyczeń: <br>
+                        -nie można wypożyć dwóch egzemplarzy tej samej książki na raz<br>
+                        -maksymalnie 5 wypożyczeń
                     </h3>
                 </p>
             </div>
         </div>
     </div>
 </div>
+}
 <div>
     <table class="table">
         <thead class="tab-pane">

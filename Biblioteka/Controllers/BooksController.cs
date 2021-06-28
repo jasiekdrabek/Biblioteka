@@ -72,7 +72,7 @@ namespace Biblioteka.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var check = _db.User.FirstOrDefault(s => s.Name == book.Name);
+                    var check = _db.Book.FirstOrDefault(s => s.Name == book.Name && s.Author == book.Author);
                     if (check == null)
                     {
                         int i = Guid.NewGuid().GetHashCode();
