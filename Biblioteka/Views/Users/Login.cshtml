@@ -1,0 +1,45 @@
+﻿@model Biblioteka.Models.User
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+@if (ViewBag.Message != null)
+{
+    <script>
+
+$(document).ready(function(){
+
+alert('@ViewBag.Message');
+
+});
+
+    </script>
+
+}
+<div class="row justify-content-md-center">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                Logowanie
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("Login", "Users", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        @Html.Label("Login")
+                        @Html.TextBoxFor(m => m.Name, "", new { @class = "form-control", @placeholder = "Login" })
+
+                    </div>
+                    <div class="form-group">
+                        @Html.Label("Hasło")
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Haslo" })
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="submit" class="btn btn-primary" value="Login" />
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

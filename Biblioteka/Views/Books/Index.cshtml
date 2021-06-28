@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+
+
+}
+@if (ViewBag.Message != null)
+{
+    <script>
+
+$(document).ready(function(){
+
+alert('@ViewBag.Message');
+
+});
+
+    </script>
+
+}
+<div class="row justify-content-md-center">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                Wypożycz
+            </div>
+            <div class="card-body">
+                <p>
+                    <h3>Zasady wypożyczeń: <br>
+                    -nie można wypożyć dwóch egzemplarzy tej samej książki na raz<br>
+                    -maksymalnie 5 wypożyczeń
+                    </h3>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <table class="table">
+        <thead class="tab-pane">
+            <tr>
+                <th>Nazwa</th>
+                <th>Autor</th>
+                <th>Ilość stron</th>
+                <th>Ilośc egemplarzy</th>
+            </tr>
+        </thead>
+        <tbody class="tab-content">
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @item.Name
+                    </td>
+                    <td>
+                        @item.Author
+                    </td>
+                    <td>
+                        @item.NuberOfPages
+                    </td>
+                    <td>
+                        @item.Quantity
+                    </td>
+                    @if (Session["Role"].ToString() == "Admin                                   ")
+                    {
+                        <td>
+                            @using (Html.BeginForm("Edit", "Books", FormMethod.Get))
+                            {
+                                <input type="hidden" name="id" value="@item.Id" />
+                                <input type="submit" name="submit" class="btn btn-primary" value="Edytuj" />
+                            }
+                        </td>
+                        <td>
+                            @using (Html.BeginForm("Delete", "Books", FormMethod.Post))
+                            {
+                                <div class="form-group">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="submit" name="submit" class="btn btn-primary" value="Usuń" />
+                                </div>
+                            }
+
+                        </td>
+                    }
+                    @if (Session["Role"].ToString() == "User                                    ")
+                    {
+                        <td>
+                            @using (Html.BeginForm("Loan", "Loans", FormMethod.Post))
+                            {
+                                <div class="form-group">
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="submit" name="submit" class="btn btn-primary" value="Wypożycz" />
+                                </div>
+                            }
+
+                        </td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

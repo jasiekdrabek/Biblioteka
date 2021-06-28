@@ -1,0 +1,111 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage1.cshtml";
+}
+@if (ViewBag.Message != null)
+{
+    <script>
+
+$(document).ready(function(){
+
+alert('@ViewBag.Message');
+
+});
+
+    </script>
+
+}
+<div class="row justify-content-md-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                Aktywne wypożyczenia
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="tab-pane">
+                        <tr>
+                            <th>Id</th>
+                            <th>Książka</th>
+                            <th>Data wypożyczenia</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tab-content">
+                        @foreach (var item in Model)
+                        {
+                            if (item.Status == "Active")
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Id
+                                    </td>
+                                    <td>
+                                        @item.BookName
+                                    </td>
+                                    <td>
+                                        @item.StartOfLoan
+                                    </td>
+                                    <td>
+                                    <td>
+                                        @using (Html.BeginForm("EndLoan", "Loans", FormMethod.Post))
+                                        {
+                                            <div class="form-group">
+                                                <input type="hidden" name="id" value="@item.Id" />
+                                                <input type="submit" name="submit" class="btn btn-primary" value="Zakończ wypożyczenie" />
+                                            </div>
+                                        }
+
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-md-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                Zakończone wypożyczenia
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead class="tab-pane">
+                        <tr>
+                            <th>Id</th>
+                            <th>Książka</th>
+                            <th>Data wypożyczenia</th>
+                            <th>Data zwrotu</th>
+                        </tr>
+                    </thead>
+                    <tbody class="tab-content">
+                        @foreach (var item in Model)
+                        {
+                            if (item.Status == "Ended")
+                            {
+                                <tr>
+                                    <td>
+                                        @item.Id
+                                    </td>
+                                    <td>
+                                        @item.BookName
+                                    </td>
+                                    <td>
+                                        @item.StartOfLoan
+                                    </td>
+                                    <td>
+                                        @item.EndOfLoan
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
