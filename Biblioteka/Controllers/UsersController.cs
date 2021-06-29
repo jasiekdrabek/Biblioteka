@@ -58,8 +58,8 @@ namespace Biblioteka.Controllers
                         _db.Configuration.ValidateOnSaveEnabled = false;
                         _db.User.Add(_user);
                         _db.SaveChanges();
-                        ViewBag.Message = "Pomyślnie zarejestrowano nowego użytkownika";
-                        return View();
+                        Session["Message"] = "Pomyślnie zarejestrowano nowego użytkownika";
+                        return RedirectToAction("Login");
                     }
                     else
                     {
@@ -67,10 +67,10 @@ namespace Biblioteka.Controllers
                         return View();
                     }
                 }
-                else
-                {
-                    ViewBag.Message = "Hasło musi zawierać Wielką litere, małą literą oraz cyfrę";
-                }
+            }
+            else
+            {
+                ViewBag.Message = "Hasło musi zawierać Wielką litere, małą literą oraz cyfrę";
             }
             return View();
 
@@ -79,7 +79,11 @@ namespace Biblioteka.Controllers
 
         public ActionResult Login()
         {
-            return View();
+            if (Session["Message"] != null)
+            {
+                ViewBag.Message = Session["Message"].ToString();
+            }
+                return View();
         }
 
 
