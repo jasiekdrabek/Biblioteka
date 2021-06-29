@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Biblioteka.Helper
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -14,84 +15,56 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar nav-tabs navbar-expand-sm navbar-toggleable-sm navbar-light bg-gradient border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Users" asp-action="Index">Biblioteka Szkolenie Techniczne 3 (projekt)</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                @if (Session["idUser"] == null)
-                {
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                @Html.ActionLink("Home", "Index", "Users")
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                @Html.ActionLink("Zaloguj", "Login", "Users")
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                @Html.ActionLink("Zarejestruj", "Register", "Users")
-                            </li>
-                        </ul>
-                    </div>
-                }
-                @if (Session["idUser"] != null)
-                {
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="navbar-item">
-                                <a>Witaj: @Session["Name"].ToString()</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    if (Session["Role"].ToString() == "User                                    ")
+                <a class="navbar-brand">Biblioteka Szkolenie Techniczne 3 (projekt)</a>
+                <ul class="nav navbar-nav ">
+                    @if (Session["idUser"] != null)
                     {
-                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                            <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index", "Books")">Wypożycz</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                            <ul class="navbar-nav flex-grow-1">
-                                <li class="nav-item">
-                                    <a href="@Url.Action("Index","Loans")">Moje wypozyczenia</a>
-                                </li>
-                            </ul>
-                        </div>
+                        <li class="navbar-brand">
+                            Witaj: @Session["Name"].ToString()
+                        </li>
                     }
-                    if (Session["Role"].ToString() == "Admin                                   ")
+                    <li class="nav-item @Html.IsSelected(actions: "Index", controllers: "Users")">
+                        @Html.ActionLink("Home", "Index", "Users", new { area = "" }, new { @class = "navbar-brand" })
+                    </li>
+                    @if (Session["idUser"] == null)
                     {
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Zarządzaj książkami
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="@Url.Action("Index", "Books")">Przeglądaj</a>
-                                <a class="dropdown-item" href="@Url.Action("Add", "Books")">Dodaj</a>
-                            </div>
-                        </div>
+                        <li class="nav-item @Html.IsSelected(actions: "Login", controllers: "Users")">
+                            @Html.ActionLink("Zaloguj", "Login", "Users", new { area = "" }, new { @class = "navbar-brand" })
+                        </li>
+                        <li class="nav-item @Html.IsSelected(actions: "Register", controllers: "Users")">
+                            @Html.ActionLink("Zarejestruj", "Register", "Users", new { area = "" }, new { @class = "navbar-brand" } )
+                        </li>
                     }
-                    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                        <ul class="navbar-nav flex-grow-1">
-                            <li class="nav-item">
-                                <a href="@Url.Action("Logout", "Users")">Wyloguj</a>
+                    @if (Session["idUser"] != null)
+                    {
+                        if (Session["Role"].ToString() == "User                                    ")
+                        {
+                            <li class="nav-item @Html.IsSelected(actions: "Index", controllers: "Books")">
+                                @Html.ActionLink("Wypożycz", "Index", "Books", new { area = "" }, new { @class = "navbar-brand" } )
                             </li>
-                        </ul>
-                    </div>
-                }
+                            <li class="nav-item @Html.IsSelected(actions: "Register", controllers: "Users")">
+                                @Html.ActionLink("Moje wypozyczenia", "Index", "Loans", new { area = "" }, new { @class = "navbar-brand" } )
+                            </li>
+                        }
+                        if (Session["Role"].ToString() == "Admin                                   ")
+                        {
+                            <li class="nav-item dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Zarządzaj książkami
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" href="@Url.Action("Index", "Books")">Przeglądaj</a>
+                                    <a class="dropdown-item" href="@Url.Action("Add", "Books")">Dodaj</a>
+                                </div>
+                            </li>
+                        }
+                        <li class="@Html.IsSelected(actions: "Logout", controllers: "Users")">
+                            @Html.ActionLink("Wyloguj", "Logout", "Users", new { area = "" }, new { @class = "navbar-brand" } )
+                        </li>
+                    }
+                </ul>
             </div>
         </nav>
     </header>
